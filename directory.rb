@@ -21,15 +21,52 @@ def print_header
 end
 
 def print_students(students)
-  students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+  students.each_with_index { |student, index| puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
 end
 
 def print_footer(names)
   puts ""
-  puts "Overall, we have #{names.count} great students!"
+  if names.count == 1 then puts "Overall, we have #{names.count} great student!"
+  else puts "Overall, we have #{names.count} great students!" end
+  puts ""
 end
+
+def search_students(students)
+  print "Would you like to search the current list of students? "
+  answer = gets.chomp.downcase
+  if answer == "yes"
+    print "Please enter the first letter of the student's name: "
+    letter = gets.chomp
+    sorted_students = []
+    students.select do |student|
+      if student[:name].split("")[0] == letter
+        sorted_students << student
+      end
+    end
+    if sorted_students.empty? == false
+      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+    else
+      puts "There are no current students whose name begins with '#{letter}'"
+    end
+  end
+end
+
+
+
+#     if student[:name].split("")[0] == letter
+#       students.select do |student|
+#         puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
+#       end
+#     else
+#       puts "There are no current students whose name begins with '#{letter}'"
+#       end
+#     end
+#   end
+# end
+
 
 students = input_students
 print_header
 print_students(students)
 print_footer(students)
+search_students(students)
