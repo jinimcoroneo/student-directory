@@ -51,8 +51,32 @@ def search_students(students)
   end
 end
 
+def short_names(students)
+  print "Would you like to display the students with short names? "
+  answer = gets.chomp
+  if answer == "yes"
+    short_names = []
+    students.select do |student|
+      if student[:name].split("").length <= 12
+        short_names << student
+      end
+    end
+    if short_names.empty? == false
+      puts "short names:"
+      short_names.each do |student|
+        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
+      end
+    else
+      puts "There are no people with short names currently enrolled!"
+    end
+  end
+end
+
+
 students = input_students
 print_header
 print_students(students)
 print_footer(students)
 search_students(students)
+puts ""
+short_names(students)
