@@ -2,32 +2,51 @@ def input_students
   puts "Please enter the name and cohort of the students"
   puts "To finish, hit return twice"
   students = []
+  print "Name: "
   name = gets.chomp
-  cohort = gets.chomp
   while name != "" do
-    students << {name: name, cohort: cohort.to_sym}
-    if students.count == 1 then puts "Now we have #{students.count} student"
-    else puts "Now we have #{students.count} students" end
-    name = gets.chomp
+    print "Cohort: "
     cohort = gets.chomp
+    print "Hobbies: "
+    hobbies = gets.chomp
+    print "Country of birth: "
+    birth_place = gets.chomp
+    students << {name: name, cohort: cohort, hobbies: hobbies, birth_place: birth_place }
+    if students.count == 1
+      puts "Now we have #{students.count} student"
+    else
+      puts "Now we have #{students.count} students"
+    end
+    print "Add another student? "
+    answer = gets.chomp
+    if answer == "yes"
+      print "Name: "
+      name = gets.chomp
+    else
+      break
+    end
   end
   students
 end
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
-  puts "-------------------------------------------"
+  puts "The students of my cohort at Makers Academy".center(100)
+  puts "-------------------------------------------".center(100)
   puts ""
 end
 
 def print_students(students)
-  students.each_with_index { |student, index| puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+  students.each_with_index do |student, index|
+    print "#{index + 1}. #{student[:name].capitalize} is in the #{student[:cohort].capitalize} cohort. ".center(100)
+    print "#{student[:name].capitalize} was born in #{student[:birth_place].capitalize} ".center(100)
+    puts "and enjoys #{student[:hobbies]}.".center(100)
+  end
 end
 
 def print_footer(names)
   puts ""
-  if names.count == 1 then puts "Overall, we have #{names.count} great student!"
-  else puts "Overall, we have #{names.count} great students!" end
+  if names.count == 1 then puts "Overall, we have #{names.count} great student!".center(100)
+  else puts "Overall, we have #{names.count} great students!".center(100) end
   puts ""
 end
 
@@ -36,17 +55,19 @@ def search_students(students)
   answer = gets.chomp.downcase
   if answer == "yes"
     print "Please enter the first letter of the student's name: "
-    letter = gets.chomp
+    letter = gets.chomp.downcase
     sorted_students = []
     students.select do |student|
-      if student[:name].split("")[0] == letter
+      if student[:name].split("")[0].downcase == letter
         sorted_students << student
       end
     end
     if sorted_students.empty? == false
-      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+      puts ""
+      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100) }
     else
-      puts "There are no current students whose name begins with '#{letter}'"
+      puts ""
+      puts "There are no current students whose name begins with '#{letter}'".center(100)
     end
   end
 end
@@ -62,21 +83,25 @@ def short_names(students)
       end
     end
     if short_names.empty? == false
-      puts "short names:"
+      puts ""
+      puts "short names:".center(100)
       short_names.each do |student|
-        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
+        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
       end
     else
-      puts "There are no people with short names currently enrolled!"
+      puts "There are no people with short names currently enrolled!".center(100)
     end
   end
 end
 
 
 students = input_students
+puts ""
 print_header
 print_students(students)
+puts ""
 print_footer(students)
 search_students(students)
 puts ""
 short_names(students)
+puts ""
