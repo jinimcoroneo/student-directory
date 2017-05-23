@@ -51,20 +51,6 @@ def search_students(students)
   end
 end
 
-
-
-#     if student[:name].split("")[0] == letter
-#       students.select do |student|
-#         puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
-#       end
-#     else
-#       puts "There are no current students whose name begins with '#{letter}'"
-#       end
-#     end
-#   end
-# end
-
-
 students = input_students
 print_header
 print_students(students)
