@@ -12,6 +12,7 @@ def print_menu
   puts "type 1 to input the students"
   puts "type 2 to show the students"
   puts "type 3 to search by name"
+  puts "type 4 to save the list to students.csv"
   puts "type 9 to exit"
 end
 
@@ -24,6 +25,9 @@ def process(selection)
     when "3"
       search_students
       puts ""
+    when "4"
+      save_students
+      puts "the file 'students.csv' has been saved"
     when "9"
       exit
     else
@@ -94,6 +98,16 @@ def search_students
   end
 end
 
+# name,cohort
 
+def save_students
+  file = File.open("students.csv", "w")
+  @students.each do |student|
+    student_data = student[:name], student[:cohort]
+    csv_line = student_data.join(", ")
+    file.puts csv_line
+  end
+  file.close
+end
 
 interactive_menu
