@@ -1,15 +1,24 @@
 def input_students
-  puts "Please enter the name and cohort of the students"
+  puts "Please enter the name of the student"
   puts "To finish, hit return twice"
   students = []
+  print "Name: "
   name = gets.chomp
-  cohort = gets.chomp
   while name != "" do
-    students << {name: name, cohort: cohort.to_sym}
-    if students.count == 1 then puts "Now we have #{students.count} student"
-    else puts "Now we have #{students.count} students" end
-    name = gets.chomp
-    cohort = gets.chomp
+    students << {name: name, cohort: :november}
+    if students.count == 1
+      puts "Now we have #{students.count} student"
+    else
+      puts "Now we have #{students.count} students"
+    end
+    print "Add another student? "
+    answer = gets.chomp
+    if answer == "yes"
+      print "Name: "
+      name = gets.chomp
+    else
+      break
+    end
   end
   students
 end
