@@ -11,14 +11,8 @@ def input_students
     else
       puts "Now we have #{students.count} students"
     end
-    print "Add another student? "
-    answer = gets.chomp
-    if answer == "yes"
-      print "Name: "
-      name = gets.chomp
-    else
-      break
-    end
+    print "Name: "
+    name = gets.chomp
   end
   students
 end
@@ -45,7 +39,7 @@ def search_students(students)
   answer = gets.chomp.downcase
   if answer == "yes"
     print "Please enter the first letter of the student's name: "
-    letter = gets.chomp
+    letter = gets.chomp.downcase
     sorted_students = []
     students.select do |student|
       if student[:name].split("")[0] == letter
@@ -54,8 +48,32 @@ def search_students(students)
     end
     if sorted_students.empty? == false
       sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+      puts ""
     else
       puts "There are no current students whose name begins with '#{letter}'"
+      puts ""
+    end
+  end
+end
+
+def short_names(students)
+  print "Would you like to display the students with short names? "
+  answer = gets.chomp
+  if answer == "yes"
+    short_names = []
+    students.select do |student|
+      if student[:name].split("").length <= 12
+        short_names << student
+      end
+    end
+    if short_names.empty? == false
+      puts ""
+      puts "short names:".center(100)
+      short_names.each do |student|
+        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
+      end
+    else
+      puts "There are no people with short names currently enrolled!".center(100)
     end
   end
 end
@@ -65,5 +83,8 @@ end
 students = input_students
 print_header
 print_students(students)
+puts ""
 print_footer(students)
 search_students(students)
+puts ""
+short_names(students)
