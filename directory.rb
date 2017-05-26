@@ -1,49 +1,59 @@
-def interactive_menu
-  students = []
-  loop do
-    puts "type 1 to input the students"
-    puts "type 2 to show the students"
-    puts "type 3 to search by name"
-    puts "type 9 to exit"
+@students = []
 
+def interactive_menu
+  loop do
+    print_menu
     selection = gets.chomp
-    case selection
+    process(selection)
+  end
+end
+
+def print_menu
+  puts "type 1 to input the students"
+  puts "type 2 to show the students"
+  puts "type 3 to search by name"
+  puts "type 9 to exit"
+end
+
+def process(selection)
+  case selection
     when "1"
-      students = input_students
+      @students = input_students
     when "2"
-      print_header
-      print_students(students)
-      puts ""
-      print_footer(students)
+      show_students
     when "3"
-      search_students(students)
+      search_students
       puts ""
     when "9"
       exit
     else
       puts "I don't know what you meant, try again"
     end
-  end
 end
 
+def show_students
+  print_header
+  print_students_list
+  puts ""
+  print_footer
+end
 
 def input_students
   puts "Please enter the name of the student"
   puts "To finish, hit return twice"
-  students = []
   print "Name: "
   name = gets.chomp
   while name != "" do
-    students << {name: name, cohort: :november}
-    if students.count == 1
-      puts "Now we have #{students.count} student"
+    @students << {name: name, cohort: :november}
+    if @students.count == 1
+      puts "Now we have #{@students.count} student"
     else
-      puts "Now we have #{students.count} students"
+      puts "Now we have #{@students.count} students"
     end
     print "Name: "
     name = gets.chomp
   end
-  students
+  @students
 end
 
 def print_header
@@ -52,40 +62,38 @@ def print_header
   puts ""
 end
 
-def print_students(students)
-  students.each_with_index do |student, index|
+def print_students_list
+  @students.each_with_index do |student, index|
     puts "#{index + 1}. #{student[:name].capitalize} is in the #{student[:cohort].capitalize} cohort."
   end
 end
 
-def print_footer(names)
+def print_footer
   puts ""
-  if names.count == 1 then puts "Overall, we have #{names.count} great student!"
-  else puts "Overall, we have #{names.count} great students!" end
+  if @students.count == 1 then puts "Overall, we have #{@students.count} great student!"
+  else puts "Overall, we have #{@students.count} great students!" end
   puts ""
 end
 
-def search_students(students)
-  print "Would you like to search the current list of students? "
-  answer = gets.chomp.downcase
-  if answer == "yes"
-    print "Please enter the first letter of the student's name: "
-    letter = gets.chomp.downcase
-    sorted_students = []
-    students.select do |student|
-      if student[:name].split("")[0].downcase == letter
-        sorted_students << student
-      end
-    end
-    if sorted_students.empty? == false
-      puts ""
-      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100) }
-    else
-      puts ""
-      puts "There are no current students whose name begins with '#{letter}'".center(100)
+def search_students
+  print "Please enter the first letter of the student's name: "
+  letter = gets.chomp.downcase
+  sorted_students = []
+  @students.select do |student|
+    if student[:name].split("")[0].downcase == letter
+      sorted_students << student
     end
   end
+
+  if sorted_students.empty? == false
+    puts ""
+    sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+  else
+    puts ""
+    puts "There are no current students whose name begins with '#{letter}'"
+  end
 end
+
 
 
 interactive_menu
