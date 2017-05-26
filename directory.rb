@@ -23,10 +23,15 @@ def input_students
   students
 end
 
-def print_header
-  puts "The students of my cohort at Makers Academy".center(100)
-  puts "-------------------------------------------".center(100)
-  puts ""
+def print_header(students)
+  if students.empty? == false
+    puts "The students of my cohort at Makers Academy".center(100)
+    puts "-------------------------------------------".center(100)
+    puts ""
+  else
+    puts "There are no students currently enrolled at Makers Academy".center(100)
+    exit 
+  end
 end
 
 def print_students(students)
@@ -91,7 +96,7 @@ end
 
 
 students = input_students
-print_header
+print_header(students)
 print_students(students)
 puts ""
 print_footer(students)
