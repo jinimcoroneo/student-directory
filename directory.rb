@@ -1,17 +1,11 @@
 def input_students
-  puts "Please enter the name and cohort of the students"
+  puts "Please enter the name of the student"
   puts "To finish, hit return twice"
   students = []
   print "Name: "
   name = gets.chomp
   while name != "" do
-    print "Cohort: "
-    cohort = gets.chomp
-    print "Hobbies: "
-    hobbies = gets.chomp
-    print "Country of birth: "
-    birth_place = gets.chomp
-    students << {name: name, cohort: cohort, hobbies: hobbies, birth_place: birth_place }
+    students << {name: name, cohort: :november}
     if students.count == 1
       puts "Now we have #{students.count} student"
     else
@@ -30,23 +24,21 @@ def input_students
 end
 
 def print_header
-  puts "The students of my cohort at Makers Academy".center(100)
-  puts "-------------------------------------------".center(100)
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------------------------------------"
   puts ""
 end
 
 def print_students(students)
   students.each_with_index do |student, index|
-    print "#{index + 1}. #{student[:name].capitalize} is in the #{student[:cohort].capitalize} cohort. ".center(100)
-    print "#{student[:name].capitalize} was born in #{student[:birth_place].capitalize} ".center(100)
-    puts "and enjoys #{student[:hobbies]}.".center(100)
+    puts "#{index + 1}. #{student[:name].capitalize} is in the #{student[:cohort].capitalize} cohort."
   end
 end
 
 def print_footer(names)
   puts ""
-  if names.count == 1 then puts "Overall, we have #{names.count} great student!".center(100)
-  else puts "Overall, we have #{names.count} great students!".center(100) end
+  if names.count == 1 then puts "Overall, we have #{names.count} great student!"
+  else puts "Overall, we have #{names.count} great students!" end
   puts ""
 end
 
