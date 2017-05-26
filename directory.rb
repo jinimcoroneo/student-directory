@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    selection = gets.chomp
+    selection = STDIN.gets.chomp
     process(selection)
   end
 end
@@ -15,33 +15,40 @@ def print_menu
   puts "type 4 to save the list to students.csv"
   puts "type 5 to load the list from students.csv"
   puts "type 9 to exit"
+  puts ""
 end
 
 def process(selection)
   case selection
     when "1"
-      @students = input_students
+      puts ""
+      input_students
     when "2"
+      puts ""
       show_students
     when "3"
+      puts ""
       search_students
       puts ""
     when "4"
+      puts ""
       save_students
       puts "the file 'students.csv' has been saved"
     when "5"
+      puts ""
       load_students
-      puts "The file 'students.csv' has been loaded"
+      puts "The file '#{filename}' has been loaded"
     when "9"
       exit
     else
+      puts ""
       puts "I don't know what you meant, try again"
     end
 end
 
 def show_students
   print_header
-  print_students_list
+  print_student_list
   puts ""
   print_footer
 end
@@ -50,7 +57,7 @@ def input_students
   puts "Please enter the name of the student"
   puts "To finish, hit return twice"
   print "Name: "
-  name = gets.chomp
+  name = STDIN.gets.chomp
   while name != "" do
     @students << {name: name, cohort: :november}
     if @students.count == 1
@@ -59,33 +66,32 @@ def input_students
       puts "Now we have #{@students.count} students"
     end
     print "Name: "
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
-  @students
 end
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
-  puts "-------------------------------------------"
+  puts "The students of my cohort at Makers Academy".center(100)
+  puts "-------------------------------------------".center(100)
   puts ""
 end
 
-def print_students_list
+def print_student_list
   @students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name].capitalize} is in the #{student[:cohort].capitalize} cohort."
+    puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
   end
 end
 
 def print_footer
   puts ""
-  if @students.count == 1 then puts "Overall, we have #{@students.count} great student!"
-  else puts "Overall, we have #{@students.count} great students!" end
+  if @students.count == 1 then puts "Overall, we have #{@students.count} great student!".center(100)
+  else puts "Overall, we have #{@students.count} great students!".center(100) end
   puts ""
 end
 
 def search_students
   print "Please enter the first letter of the student's name: "
-  letter = gets.chomp.downcase
+  letter = STDIN.gets.chomp.downcase
   sorted_students = []
   @students.select do |student|
     if student[:name].split("")[0].downcase == letter
@@ -95,17 +101,31 @@ def search_students
 
   if sorted_students.empty? == false
     puts ""
-    sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+    sorted_students.each do |student| 
+     puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
+    end
   else
     puts ""
-    puts "There are no current students whose name begins with '#{letter}'"
+    puts "There are currently no students enrolled whose name begins with '#{letter}'".center(100)
   end
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} students from #{filename}".center(100)
+  else
+    puts "Sorry, #{filename} doesn't exist".center(100)
+    exit
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.split(", ")
+    name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
@@ -115,10 +135,11 @@ def save_students
   file = File.open("students.csv", "w")
   @students.each do |student|
     student_data = student[:name], student[:cohort]
-    csv_line = student_data.join(", ")
+    csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
 end
 
+try_load_students
 interactive_menu
