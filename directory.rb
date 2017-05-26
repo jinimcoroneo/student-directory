@@ -1,3 +1,32 @@
+def interactive_menu
+  students = []
+  loop do
+    puts "type 1 to input the students"
+    puts "type 2 to show the students"
+    puts "type 3 to search by name"
+    puts "type 9 to exit"
+
+    selection = gets.chomp
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print_students(students)
+      puts ""
+      print_footer(students)
+    when "3"
+      search_students(students)
+      puts ""
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
+
+
 def input_students
   puts "Please enter the name of the student"
   puts "To finish, hit return twice"
@@ -11,14 +40,8 @@ def input_students
     else
       puts "Now we have #{students.count} students"
     end
-    print "Add another student? "
-    answer = gets.chomp
-    if answer == "yes"
-      print "Name: "
-      name = gets.chomp
-    else
-      break
-    end
+    print "Name: "
+    name = gets.chomp
   end
   students
 end
@@ -64,13 +87,5 @@ def search_students(students)
   end
 end
 
-students = input_students
-puts ""
-print_header
-print_students(students)
-puts ""
-print_footer(students)
-search_students(students)
-puts ""
-short_names(students)
-puts ""
+
+interactive_menu
