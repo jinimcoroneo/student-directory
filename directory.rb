@@ -13,6 +13,7 @@ def print_menu
   puts "type 2 to show the students"
   puts "type 3 to search by name"
   puts "type 4 to save the list to students.csv"
+  puts "type 5 to load the list from students.csv"
   puts "type 9 to exit"
 end
 
@@ -28,6 +29,9 @@ def process(selection)
     when "4"
       save_students
       puts "the file 'students.csv' has been saved"
+    when "5"
+      load_students
+      puts "The file 'students.csv' has been loaded"
     when "9"
       exit
     else
@@ -98,7 +102,14 @@ def search_students
   end
 end
 
-# name,cohort
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort = line.split(", ")
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
 
 def save_students
   file = File.open("students.csv", "w")
