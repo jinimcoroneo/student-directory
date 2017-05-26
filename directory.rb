@@ -24,22 +24,22 @@ def input_students
 end
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
-  puts "-------------------------------------------"
+  puts "The students of my cohort at Makers Academy".center(100)
+  puts "-------------------------------------------".center(100)
   puts ""
 end
 
 def print_students(students)
   students.each_with_index do |student, index| 
-    puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
-    puts "#{student[:name].capitalize} enjoys #{student[:hobbies]} and lives in #{student[:birth_place].capitalize}" 
+    puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
+    puts "#{student[:name].capitalize} enjoys #{student[:hobbies]} and lives in #{student[:birth_place].capitalize}".center(100)
   end
 end
 
 def print_footer(names)
   puts ""
-  if names.count == 1 then puts "Overall, we have #{names.count} great student!"
-  else puts "Overall, we have #{names.count} great students!" end
+  if names.count == 1 then puts "Overall, we have #{names.count} great student!".center(100)
+  else puts "Overall, we have #{names.count} great students!".center(100) end
   puts ""
 end
 
@@ -56,10 +56,10 @@ def search_students(students)
       end
     end
     if sorted_students.empty? == false
-      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)" }
+      sorted_students.each { |student| puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100) }
       puts ""
     else
-      puts "There are no current students whose name begins with '#{letter}'"
+      puts "There are no current students whose name begins with '#{letter}'".center(100)
       puts ""
     end
   end
@@ -79,13 +79,14 @@ def short_names(students)
       puts ""
       puts "short names:".center(100)
       short_names.each do |student|
-        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)"
+        puts "#{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
       end
     else
-      puts "There are no people with short names currently enrolled!"
+      puts "There are no people with short names currently enrolled!".center(100)
     end
   end
 end
+
 
 
 
