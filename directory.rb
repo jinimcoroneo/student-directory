@@ -2,6 +2,18 @@
 @months = [:January, :February, :March, :April, :May, :June, :July, :August,
             :September, :October, :November, :December]
 
+def menu
+  input_students
+  print_header
+  print_students
+  puts ""
+  print_footer
+  search_students
+  puts ""
+  search_by_cohort
+  short_names
+end
+
 def input_students
   puts "Please enter the details of each student"
   puts "To finish, hit return twice"
@@ -54,7 +66,7 @@ end
 def print_students
   @students.each_with_index do |student, index| 
     puts "#{index + 1}. #{student[:name].capitalize} (#{student[:cohort].capitalize} cohort)".center(100)
-    puts "#{student[:name].capitalize} enjoys #{student[:hobbies]} and lives in #{student[:birth_place].capitalize}".center(100)
+    puts "#{student[:name].capitalize} enjoys #{student[:hobbies]} and was born in #{student[:birth_place].capitalize}".center(100)
   end
 end
 
@@ -73,7 +85,7 @@ def search_students
     letter = gets.chomp.downcase
     sorted_students = []
     @students.select do |student|
-      if student[:name].split("")[0] == letter
+      if student[:name].split("")[0].downcase == letter
         sorted_students << student
       end
     end
@@ -88,7 +100,17 @@ def search_students
 end
 
 def search_by_cohort
-
+  print "Would you like to search the students by cohort? (y or n): "
+  answer = STDIN.gets.chomp.downcase
+  if answer == "y"
+    print "Enter the cohort you would like to search by: "
+    cohort = STDIN.gets.chomp.capitalize.to_sym
+    @students.select do |student| 
+      if student[:cohort].capitalize == cohort
+        puts "#{student[:name]}: (#{student[:cohort]} cohort)".center(100)
+      end
+    end
+  end
 end
 
 def short_names
@@ -113,14 +135,4 @@ def short_names
   end
 end
 
-
-
-
-students = input_students
-print_header
-print_students
-puts ""
-print_footer
-search_students
-puts ""
-short_names
+menu
