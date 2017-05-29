@@ -2,7 +2,6 @@
 
 def interactive_menu
   load_students
-  puts "The file 'students.csv' has been loaded\n\n"
   loop do
     print_menu
     selection = STDIN.gets.chomp
@@ -14,8 +13,8 @@ def print_menu
   puts "type 1 to input the students"
   puts "type 2 to show the students"
   puts "type 3 to search by name"
-  puts "type 4 to save the list to students.csv"
-  puts "type 5 to load the list from students.csv"
+  puts "type 4 to save the file"
+  puts "type 5 to load students from a file"
   puts "type 9 to exit"
   puts ""
 end
@@ -37,12 +36,12 @@ def process(selection)
     when "4"
       puts ""
       save_students
-      puts "the file 'students.csv' has been saved\n\n"
+      puts "the file has been saved\n\n"
     when "5"
       puts ""
       load_students
-      puts "The file 'students.csv' has been loaded\n\n"
     when "9"
+      puts ""
       puts "Goodbye!\n\n"
       exit
     else
@@ -133,17 +132,39 @@ def try_load_students
   end
 end
 
-def load_students(filename = "students.csv")
+def load_students
+  puts "Enter file to load in, hit return to use the default 'students.csv' file"
+  print "> "
+  @filename = STDIN.gets.chomp
+
+  if File.exists?(@filename)
+    saving_to_file(@filename)
+  elsif @filename == ""
+    @filename = "students.csv"
+    saving_to_file(@filename)
+  else
+    puts "Sorry, #{@filename} doesn't exist, cannot load file".center(100)
+  end
+end
+
+def saving_to_file(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     add_to_students(name,cohort)
   end
   file.close
+  puts "The file '#{@filename} has been loaded\n\n"
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  puts "Enter filename, hit return to use the default 'students.csv' file"
+  print "> "
+  @filename = STDIN.gets.chomp
+  if @filename == ""
+    @filename = "students.csv"
+  end
+  file = File.open(@filename, "w")
   @students.each do |student|
     student_data = student[:name], student[:cohort]
     csv_line = student_data.join(",")
@@ -154,3 +175,4 @@ end
 
 try_load_students
 interactive_menu
+
