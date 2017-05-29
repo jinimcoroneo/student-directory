@@ -37,7 +37,7 @@ def process(selection)
     when "5"
       puts ""
       load_students
-      puts "The file '#{filename}' has been loaded"
+      puts "The file 'students.csv' has been loaded"
     when "9"
       exit
     else
@@ -59,7 +59,9 @@ def input_students
   print "Name: "
   name = STDIN.gets.chomp
   while name != "" do
-    @students << {name: name, cohort: :november}
+    print "Cohort: "
+    cohort = STDIN.gets.chomp
+    add_to_students(name, cohort)
     if @students.count == 1
       puts "Now we have #{@students.count} student"
     else
@@ -68,6 +70,10 @@ def input_students
     print "Name: "
     name = STDIN.gets.chomp
   end
+end
+
+def add_to_students(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def print_header
@@ -126,7 +132,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    add_to_students(name,cohort)
   end
   file.close
 end
