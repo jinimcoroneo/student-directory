@@ -1,6 +1,8 @@
 @students = []
 
 def interactive_menu
+  load_students
+  puts "The file 'students.csv' has been loaded"
   loop do
     print_menu
     selection = STDIN.gets.chomp
