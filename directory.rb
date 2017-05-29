@@ -143,17 +143,17 @@ def load_students
     @filename = "students.csv"
     saving_to_file(@filename)
   else
-    puts "Sorry, #{@filename} doesn't exist, cannot load file".center(100)
+    puts "Sorry, #{@filename} doesn't exist, cannot load file\n\n".center(100)
   end
 end
 
 def saving_to_file(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    add_to_students(name,cohort)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      add_to_students(name,cohort)
+    end
   end
-  file.close
   puts "The file '#{@filename} has been loaded\n\n"
 end
 
@@ -164,13 +164,13 @@ def save_students
   if @filename == ""
     @filename = "students.csv"
   end
-  file = File.open(@filename, "w")
-  @students.each do |student|
-    student_data = student[:name], student[:cohort]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(@filename, "w") do |file|
+    @students.each do |student|
+      student_data = student[:name], student[:cohort]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
 end
 
 try_load_students
