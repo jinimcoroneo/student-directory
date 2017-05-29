@@ -2,7 +2,7 @@
 
 def interactive_menu
   load_students
-  puts "The file 'students.csv' has been loaded"
+  puts "The file 'students.csv' has been loaded\n\n"
   loop do
     print_menu
     selection = STDIN.gets.chomp
@@ -25,6 +25,8 @@ def process(selection)
     when "1"
       puts ""
       input_students
+      puts ""
+      puts "student(s) have been enrolled\n\n"
     when "2"
       puts ""
       show_students
@@ -35,16 +37,17 @@ def process(selection)
     when "4"
       puts ""
       save_students
-      puts "the file 'students.csv' has been saved"
+      puts "the file 'students.csv' has been saved\n\n"
     when "5"
       puts ""
       load_students
-      puts "The file 'students.csv' has been loaded"
+      puts "The file 'students.csv' has been loaded\n\n"
     when "9"
+      puts "Goodbye!\n\n"
       exit
     else
       puts ""
-      puts "I don't know what you meant, try again"
+      puts "I don't know what you meant, try again\n\n"
     end
 end
 
